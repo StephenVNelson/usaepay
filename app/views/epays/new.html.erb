@@ -1,0 +1,16 @@
+<%= form_with url: epays_path do |f|%>
+  <%= f.hidden_field "epay[command]", value: "cc:sale" %>
+  <%= f.label :amount %>
+  <%= f.text_field "epay[amount]" %>
+  <%# f.hidden_field "amount_detail[:tax]", value:  %>
+  <%# f.hidden_field "amount_detail[:tip]", value:  %>
+  <%= f.label "Name" %>
+  <%= f.text_field "epay[creditcard[cardholder]]" %>
+  <%= f.hidden_field "epay[creditcard[number]]", value: '4000101011112222' %>
+  <%= f.hidden_field "epay[creditcard[expiration]]", value: '0919' %>
+  <%= f.hidden_field "epay[creditcard[cvc]]", value: '999' %>
+  <%= f.hidden_field "epay[creditcard[avs_street]]", value: '1234 Main' %>
+  <%= f.hidden_field "epay[creditcard[avs_zip]]", value: '12345' %>
+  <%= f.hidden_field "epay[invoice]", value: '12356' %>
+  <%= f.submit %>
+<% end %>
