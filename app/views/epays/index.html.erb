@@ -1,16 +1,24 @@
-<table>
-  <tr>
-    <th>Name</th>
-    <th>type</th>
-    <th>amount</th>
-    <th>description</th>
-  </tr>
-  <% @epays["data"].each do |epay| %>
-    <tr>
-      <td><%= epay["creditcard"]["cardholder"] %></td>
-      <td><%= epay["trantype"] %></td>
-      <td><%= epay["amount"] %></td>
-      <td><%= epay["description"] %></td>
-    </tr>
-  <% end %>
-</table>
+<div class="card">
+  <div class="card-header">
+    Proof that your purchase went through!
+    if you'd like to simulate another purchase, click <%= link_to 'here', select_path %>
+  </div>
+  <div class="card-body">
+    <table class='table'>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Description</th>
+      </tr>
+      <% @epays["data"].each do |epay| %>
+        <tr>
+          <td><%= epay["creditcard"]["cardholder"] %></td>
+          <td><%= epay["trantype"] %></td>
+          <td><%= epay["amount"] %></td>
+          <td><%= epay["description"] %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

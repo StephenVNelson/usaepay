@@ -1,0 +1,45 @@
+
+
+<div class="container">
+  <div class="card mt-5">
+    <div class="card-header">
+      Your total is $<%= @total %>. Input your credit card info to finalize purchase.
+    </div>
+  <div class="card-body">
+    <%= form_with url: epays_path do |f|%>
+      <%= f.hidden_field "epay[command]", value: "cc:sale" %>
+      <%= f.hidden_field "epay[amount]", value: @total %>
+      <div class="row">
+        <div class="col-4">
+          <%= f.label "Card Holder" %>
+          <%= f.text_field "epay[creditcard[cardholder]]", class: 'form-control' %>
+        </div>
+        <div class="col">
+          <%= f.label "Card Number" %>
+          <%= f.text_field "epay[creditcard[number]]", class: 'form-control' %>
+        </div>
+        <div class="col-1">
+          <%= f.label "Expiration" %>
+          <%= f.text_field "epay[creditcard[expiration]]", class: 'form-control' %>
+        </div>
+        <div class="col-1">
+          <%= f.label "CVC" %>
+          <%= f.text_field "epay[creditcard[cvc]]", class: 'form-control' %>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.label "Street" %>
+          <%= f.text_field "epay[creditcard[avs_street]]", class: 'form-control' %>
+        </div>
+        <div class="col">
+          <%= f.label "Zip" %>
+          <%= f.text_field "epay[creditcard[avs_zip]]", class: 'form-control' %>
+        </div>
+      </div>
+      <%= f.submit :purchase, class: 'btn btn-primary mt-5' %>
+    <% end %>
+  </div>
+</div>
+</div>

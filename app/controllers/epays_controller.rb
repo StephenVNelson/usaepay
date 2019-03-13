@@ -8,19 +8,33 @@ class EpaysController < ApplicationController
     )
   end
 
-  def new
+  def select
 
+  end
+
+  def cart
+    @total = params[:bicycle].to_i + params[:car].to_i + params[:plane].to_i
+  end
+
+  def new
   end
 
   def create
     json_params = epay_params.to_json
-    @epay = HTTParty.post('https://sandbox.usaepay.com/api/v2/transactions',
+    epay = @epay = HTTParty.post('https://sandbox.usaepay.com/api/v2/transactions',
       headers: {
         'Content-Type' => 'application/json',
         'Authorization' => "Basic #{Rails.application.credentials.usaepay[:authkey]}"
       },
       body: json_params
     )
+    if epay['result'] == 'Error'
+      flash[:danger] = epay['error']
+      redirect_to select_path
+    else
+      flash[:success] = 'You have successfully made your purchase'
+      redirect_to epays_path
+    end
   end
 
   private

@@ -1,0 +1,28 @@
+
+<div class="container">
+
+
+
+<div class="card m-5">
+  <div class="card-header">
+    What kind of tickets would you like to buy on your vaction?
+  </div>
+  <div class="card-body col-12">
+    <%= form_with url: cart_path, method: 'GET', local: true do |f| %>
+    <div class="form-check d-inline-block col-3">
+      <%= fa_icon 'bicycle', text: '$10' %>
+      <%= f.check_box "bicycle", { id: 'large'}, 10, 0 %>
+    </div>
+    <div class="form-check d-inline-block col-3">
+      <%= fa_icon 'car', text: '$50' %>
+      <%= f.check_box "car", { id: 'large'}, 50, 0 %>
+    </div>
+    <div class="form-check d-inline-block col-3">
+      <%= fa_icon 'plane', text: '$500' %>
+      <%= f.check_box "plane", { id: 'large'}, 500, 0 %>
+    </div>
+    <%= f.submit :checkout, class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+  </div>
+</div>
