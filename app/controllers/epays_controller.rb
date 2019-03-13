@@ -14,26 +14,35 @@ class EpaysController < ApplicationController
 
   def cart
     @total = params[:bicycle].to_i + params[:car].to_i + params[:plane].to_i
+    @epay = Epay.new
   end
 
   def new
   end
 
   def create
+    @total = epay_params[:amount]
+    @epay = Epay.new(epay_params)
     json_params = epay_params.to_json
-    epay = @epay = HTTParty.post('https://sandbox.usaepay.com/api/v2/transactions',
+    json_params["creditcard_attributes"] = "creditcard"
+    epay = HTTParty.post('https://sandbox.usaepay.com/api/v2/transactions',
       headers: {
         'Content-Type' => 'application/json',
         'Authorization' => "Basic #{Rails.application.credentials.usaepay[:authkey]}"
       },
       body: json_params
     )
-    if epay['result'] == 'Error'
-      flash[:danger] = epay['error']
-      redirect_to select_path
-    else
-      flash[:success] = 'You have successfully made your purchase'
-      redirect_to epays_path
+    respond_to do |format|
+      if @epay.valid? && epay['result'] != 'Error'
+        @epay.save
+        flash[:success] = 'You have successfully made your purchase'
+        format.html {redirect_to epays_path}
+      elsif epay['result'] == 'Error'
+        flash[:danger] = epay['error']
+        format.html {render 'cart'}
+      else
+        format.html {render 'cart'}
+      end
     end
   end
 
@@ -44,7 +53,7 @@ class EpaysController < ApplicationController
       :command,
       :amount,
       :invoice,
-      creditcard: [
+      creditcard_attributes: [
         :cardholder,
         :number,
         :expiration,

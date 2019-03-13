@@ -1,4 +1,8 @@
-class Epay
+class Epay < ApplicationRecord
   include HTTParty
-  # base_uri 'https://sandbox.usaepay.com/api/v2/transactions'
+
+  validates :amount, presence: true
+
+  has_one :creditcard
+  accepts_nested_attributes_for :creditcard
 end

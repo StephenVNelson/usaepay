@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2019_03_13_034922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "creditcards", force: :cascade do |t|
+    t.string "avs_street"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "cardholder"
+    t.bigint "epay_id"
+    t.string "number"
+    t.string "expiration"
+    t.string "cvc"
+    t.string "avs_zip"
+    t.index ["epay_id"], name: "index_creditcards_on_epay_id"
+  end
+
+  create_table "epays", force: :cascade do |t|
+    t.string "command"
+    t.integer "amount"
+    t.integer "invoice"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "creditcards", "epays"
 end
